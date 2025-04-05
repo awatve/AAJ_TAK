@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AAJ TAK</title>
+  <script src="//content.jwplatform.com/libraries/SAHhwvZq.js"></script>
+  <style>
+    #player {
+      position: relative;
+      width: 100%;
+      height: 100vh;
+    }
+
+    #UnMutePlayer {
+      position: absolute;
+      right: 10px;
+      top: 10px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 9999;
+    }
+
+    .unmute-button {
+      width: 100px;
+      height: 80px;
+      background: rgba(255, 255, 255, 0.6);
+      backdrop-filter: blur(10px);
+      border-radius: 10px;
+      cursor: pointer;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      border: none;
+      flex-direction: column;
+      text-align: center;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    }
+
+    .unmute-button img {
+      width: 30px;
+      height: 30px;
+      margin-bottom: 5px;
+    }
+
+    .unmute-button span {
+      font-size: 14px;
+      color: #000;
+    }
+
+    .jw-rightclick {
+      display: none !important;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div id="player"></div>
+
+  <div id="UnMutePlayer">
+    <button class="unmute-button" onclick="WSUnmute()">
+      <img src="https://stmify.com/wp-content/themes/stmify/assets/img/unmute/Speaker_Icon.svg" alt="Unmute">
+      <span>Unmute</span>
+    </button>
+  </div>
+
+  <script>
+    const playerInstance = jwplayer("player").setup({
+      file: "https://aajtaklive-us.tosshub.com/vid/aajtak-us/aajtak-us/p/live_720p/chunks.m3u8",
+      type: "hls",
+      width: "100%",
+      height: "100%",
+      autostart: true,
+      mute: true,
+      controls: true,
+      cast: {},
+      sharing: false,
+      settingsMenu: ["quality", "playbackRate", "captions"]
+    });
+
+    const unmuteDiv = document.getElementById("UnMutePlayer");
+
+    function WSUnmute() {
+      if (playerInstance.getMute()) {
+        playerInstance.setMute(false);
+        unmuteDiv.style.display = "none";
+      }
+    }
+
+    // Listen for mute/unmute toggle via player controls
+    playerInstance.on("mute", function (event) {
+      if (event.mute) {
+        unmuteDiv.style.display = "flex";
+      } else {
+        unmuteDiv.style.display = "none";
+      }
+    });
+  </script>
+
+</body>
+
+</html>
